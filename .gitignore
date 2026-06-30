@@ -1,0 +1,9 @@
+build/
+.dub/
+*.o
+*.a
+*.so
+*.dylib
+/nearest
+*-test-library
+*-test-unittest

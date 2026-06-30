@@ -1,0 +1,32 @@
+{
+    "name": "d-nanoflann",
+    "description": "D bindings for a thin C shim around jlblancoc/nanoflann — header-only C++ KD-tree for nearest-point queries on 3-D float clouds.",
+    "license": "BSD-2-Clause",
+    "authors": ["Alexander Shagarov"],
+
+    "sourcePaths": ["source"],
+    "importPaths": ["source"],
+
+    "preBuildCommands-posix": [
+        "cd \"$PACKAGE_DIR\" && git submodule update --init --recursive --quiet",
+        "cmake -S \"$PACKAGE_DIR\" -B \"$PACKAGE_DIR/build\" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF",
+        "cmake --build \"$PACKAGE_DIR/build\" -j --target nanoflann_c"
+    ],
+
+    "lflags-posix": ["-L$PACKAGE_DIR/build"],
+
+    "libs-posix": ["nanoflann_c", "stdc++", "m"],
+
+    "configurations": [
+        {
+            "name": "library",
+            "targetType": "staticLibrary"
+        },
+        {
+            "name": "nearest",
+            "targetType": "executable",
+            "targetName": "nearest",
+            "mainSourceFile": "examples/nearest.d"
+        }
+    ]
+}
