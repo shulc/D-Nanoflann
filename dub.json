@@ -12,10 +12,17 @@
         "cmake -S \"$PACKAGE_DIR\" -B \"$PACKAGE_DIR/build\" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF",
         "cmake --build \"$PACKAGE_DIR/build\" -j --target nanoflann_c"
     ],
-
     "lflags-posix": ["-L$PACKAGE_DIR/build"],
+    "libs-linux": ["nanoflann_c", "stdc++", "m"],
+    "libs-osx": ["nanoflann_c", "c++", "m"],
 
-    "libs-posix": ["nanoflann_c", "stdc++", "m"],
+    "preBuildCommands-windows": [
+        "git -C \"$PACKAGE_DIR\" submodule update --init --recursive",
+        "cmake -S \"$PACKAGE_DIR\" -B \"$PACKAGE_DIR/build\"",
+        "cmake --build \"$PACKAGE_DIR/build\" --config Release --target nanoflann_c"
+    ],
+    "lflags-windows": ["$PACKAGE_DIR/build/Release/nanoflann_c.lib"],
+    "dflags-windows": ["-mscrtlib=msvcrt"],
 
     "configurations": [
         {

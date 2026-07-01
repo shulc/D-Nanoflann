@@ -22,7 +22,10 @@ target_include_directories(nanoflann_c
 )
 
 # Keep the static build small and warning-clean.
-target_compile_options(nanoflann_c PRIVATE -Wall -Wextra -Wno-unused-parameter)
+# GCC/Clang warning flags only — MSVC (cl) doesn't understand -W* and would choke.
+if(NOT MSVC)
+    target_compile_options(nanoflann_c PRIVATE -Wall -Wextra -Wno-unused-parameter)
+endif()
 
 # Explicitly disable shared so callers can rely on a static .a only.
 set_target_properties(nanoflann_c PROPERTIES
